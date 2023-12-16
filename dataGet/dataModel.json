@@ -1,0 +1,42 @@
+{
+    "Subject": "Introducao a Ciencia da computacao 2",
+    "Code": "SCC0201",
+    "Course": "Ciencias de computacao",
+    "Type": "Obrigatory",
+    "Link":"https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=SCC0201&verdis=2",
+    "Institute": "ICMC",
+    "Credits":{
+        "Class": 4,
+        "Work":2,
+        "Total": 120
+    },
+    "About":{
+        "Goal":"Apresentacao de conceitos...",
+        "Summary":"Introdução de conceitos avançados em linguagem de programação estruturada...",
+        "Program": "Análise de algoritmos: conceitos básicos, critérios de complexidade de tempo e espaço..."
+    },
+    "LinkWith":{
+        "Requirements":[
+            {
+                "Subject": "Introducao a Ciencia da computacao 1",
+                "Link": "https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=SCC0201&verdis=2",
+                "requirement": "weak"
+            }
+        ],
+        "RequirementOf":[
+            {
+                "Subject": "Introducao a Ciencia da computacao 3",
+                "Link": "https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=SCC0201&verdis=2",
+                "requirement": "weak"
+            }
+        ],
+        "Recomendations":[
+            {
+                "Subject": "Laboratorio de introducao a Ciencia da computacao 2",
+                "Link": "https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=SCC0201&verdis=2",
+                "type": "Optional"
+            }
+        ]
+    }
+
+}
