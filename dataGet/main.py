@@ -165,6 +165,38 @@ for table in tables:
                 #Adicionar a nova materia na lista de materias
                 Subjectlist.append(subject)
 
+
+
+""" Registrar os RequirementOf"""
+# Itero por todas as matérias
+for mainSubject in Subjectlist:
+    dependencies = []
+    
+    # Registro todas as dependencias em dependencies
+    for virtualDependency in mainSubject['LinkWith']['Requirements']:
+        dependencies.append({
+                "Code" : virtualDependency['Subject'].split()[0],
+                "type" : virtualDependency['type'],
+                "Dict" : None
+            })
+
+    # Acho as dependencias no SubjectList e coloca na parte Dict delas
+    for dependency in dependencies:
+        for possibleSubject in Subjectlist:
+            if possibleSubject['Code'] == dependency['Code']:
+                dependency['Dict'] = possibleSubject
+
+
+    # Registro no Dict que a matéria é dependencia da mainSubject
+    for dependecy in dependencies:
+        if dependecy['Dict'] == None: continue
+
+        dependency['Dict']['LinkWith']['RequirementOf'].append({
+                "Subject": f"{mainSubject['Code']} - {mainSubject['Subject']}",
+                "Link": mainSubject['Link'],
+                "type": dependency['type']
+            })
+
 #converter lista gerada para json e salvar em um arquivo
 with open('output.json', 'w', encoding='utf8') as f:
     json.dump(Subjectlist, f, ensure_ascii=False)
