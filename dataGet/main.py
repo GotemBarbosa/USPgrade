@@ -175,7 +175,7 @@ for mainSubject in Subjectlist:
     # Registro todas as dependencias em dependencies
     for virtualDependency in mainSubject['LinkWith']['Requirements']:
         dependencies.append({
-                "Code" : virtualDependency['Subject'].split()[0],
+                "Code" : virtualDependency['Code'],
                 "type" : virtualDependency['type'],
                 "Dict" : None
             })
@@ -192,9 +192,10 @@ for mainSubject in Subjectlist:
         if dependecy['Dict'] == None: continue
 
         dependency['Dict']['LinkWith']['RequirementOf'].append({
-                "Subject": f"{mainSubject['Code']} - {mainSubject['Subject']}",
+                "Code": mainSubject['Code'],
+                "Subject":  mainSubject['Subject'],
                 "Link": mainSubject['Link'],
-                "type": dependency['type']
+                "type": dependency['type'],
             })
 
 #converter lista gerada para json e salvar em um arquivo
