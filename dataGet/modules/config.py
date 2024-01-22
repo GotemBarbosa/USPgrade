@@ -1,4 +1,12 @@
+"""
+This file should be changed to suit your browser, \n
+it currently has Edge, Vivaldi and Firefox options \n
+which can be switched by changing the called driver function below
+"""
+
 import subprocess
+
+
 
 def GetDriverEdge():
     """Edge"""

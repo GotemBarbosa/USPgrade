@@ -1,8 +1,7 @@
-from config import DRIVER
-from data_get_lib import GetData
+from modules import config, data_get_lib
 
 def main():
-    GetData(DRIVER)
+    data_get_lib.GetData(config.DRIVER, path="../data/subjects.json")
 
 if __name__ == "__main__":
     main()

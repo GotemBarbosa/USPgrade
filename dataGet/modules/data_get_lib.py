@@ -1,7 +1,6 @@
-# Codigo para acessar o site da USP e pegar as informacoes do curso de Ciencias de Computacao
-# Para mais detalhes abra o arquivo dataGetNotebook.ipynb 
-
-
+"""
+This file has functions to scrap subjects information
+"""
 
 
 from selenium.webdriver.support.ui import Select
@@ -217,15 +216,15 @@ def SetRequirementsOf(Subjectlist):
                 })
     return Subjectlist
 
-def SaveData(Subjectlist):
+def SaveData(Subjectlist, path):
     #converter lista gerada para json e salvar em um arquivo
-    with open('output.json', 'w', encoding='utf8') as f:
+    with open(path, 'w', encoding='utf8') as f:
         json.dump(Subjectlist, f, ensure_ascii=False, indent=2)
 
-def GetData(driver):
+def GetData(driver, path):
     tables = GetTable(driver)
     time.sleep(2)
     Subjectlist = GetSubjectlist(tables, driver)
     Subjectlist = SetRequirementsOf(Subjectlist)
 
-    SaveData(Subjectlist)
+    SaveData(Subjectlist, path)
