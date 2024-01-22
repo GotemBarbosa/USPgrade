@@ -28,4 +28,18 @@ def GetDriverVivaldi():
     drivervivaldi = webdriver.Chrome(service=ChromeService(driverPATH), options=options)
     return drivervivaldi
 
-DRIVER = GetDriverVivaldi()
+def GetDriverFirefox():
+    """Firefox"""
+    from selenium import webdriver
+    from selenium.webdriver.firefox.options import Options as FirefoxOptions
+    from selenium.webdriver.firefox.service import Service as FirefoxService
+
+    options = FirefoxOptions()
+    options.add_argument("--headless")
+    options.binary_location = subprocess.run(['which', 'firefox'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
+    driverPATH = subprocess.run(['which', 'geckodriver'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
+    print(driverPATH)
+    driverFirefox = webdriver.Firefox(service=FirefoxService(driverPATH), options=options)
+    return driverFirefox
+
+DRIVER = GetDriverFirefox()
