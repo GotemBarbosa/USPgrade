@@ -102,19 +102,38 @@ def GetSubjectlist(tables, driver):
             if(row.get_attribute("style") == "background-color: rgb(204, 204, 204);"):
                 semester = cells[0].text
             else:
-                #Se a linha tiver esse estilo, significa que a linha represente um requisito de uma materia anterior 
+                #Se a linha tiver esse estilo, significa que a linha represente um requisito ou recomendacao de uma materia anterior 
                 if(cells[0].get_attribute("style") == "padding-left: 25px;"):
+                    if(cells[1].text == "Indicação de conjunto"):
+                        #objeto recomendation
+                        recomendation = {
+                            "Code": None,
+                            "Subject": None,
+                            "Link": None,
+                        }
+                        code = cells[0].text.split(' ')[0]
+                        recomendation["Link"] = f"https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis={code}&verdis=1"
+                        recomendation["Code"] = code
+                        recomendation["Subject"] = ' '.join(cells[0].text.split(' ')[2:])
 
-                    #objeto requirement que vai ser adicionado na lista de requisitos da materia anterior (seguindo o padrao do dataModel.json )
-                    requirement = {
-                        "Subject": None,
-                        "Link": None,
-                        "type": None
-                    }
 
-                    requirement["Subject"] = cells[0].text
-                    requirement["type"] = cells[1].text
-                    Subjectlist[-1]["LinkWith"]["Requirements"].append(requirement)
+                        Subjectlist[-1]["LinkWith"]["Recomendations"].append(recomendation)
+
+                    else:
+                        #objeto requirement que vai ser adicionado na lista de requisitos da materia anterior (seguindo o padrao do dataModel.json )
+                        requirement = {
+                            "Code": None,
+                            "Subject": None,
+                            "Link": None,
+                            "type": None
+                        }
+
+                        code = cells[0].text.split(' ')[0]
+                        requirement["Code"] = code
+                        requirement["Subject"] = ' '.join(cells[0].text.split(' ')[2:])
+                        requirement["Link"] = f"https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis={code}&verdis=1"
+                        requirement["type"] = cells[1].text
+                        Subjectlist[-1]["LinkWith"]["Requirements"].append(requirement)
                 else:
 
                 #Nova materia
@@ -134,13 +153,16 @@ def GetSubjectlist(tables, driver):
                     subject["Institute"] = institute
                     subject["Type"] = subjectType
                     subject["Semester"] = semester
+                    subject["Link"] = f"https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis={code}&verdis=1"
                     subject["Credits"]["Class"] = creditClass
                     subject["Credits"]["Work"] = creditWork
                     subject["Credits"]["Total"] = classHours
-
+                    
+                    time.sleep(0.1)
                     #abrir o dialog que contem as informacoes da materia ao clicar no codigo da materia
                     link = cells[0].find_element(By.TAG_NAME, "a")
                     driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", link)
+                    time.sleep(0.1)
                     link.click()
 
                     #pegar as informacoes contidas no dialog
@@ -160,6 +182,7 @@ def GetSubjectlist(tables, driver):
 
                     #Adicionar a nova materia na lista de materias
                     Subjectlist.append(subject)
+    return Subjectlist
 
 def SetRequirementsOf(Subjectlist):
     """ Registrar os RequirementOf"""
@@ -192,16 +215,17 @@ def SetRequirementsOf(Subjectlist):
                     "Link": mainSubject['Link'],
                     "type": dependency['type'],
                 })
+    return Subjectlist
 
 def SaveData(Subjectlist):
     #converter lista gerada para json e salvar em um arquivo
     with open('output.json', 'w', encoding='utf8') as f:
-        json.dump(Subjectlist, f, ensure_ascii=False)
+        json.dump(Subjectlist, f, ensure_ascii=False, indent=2)
 
 def GetData(driver):
     tables = GetTable(driver)
-
+    time.sleep(2)
     Subjectlist = GetSubjectlist(tables, driver)
-    SetRequirementsOf(Subjectlist)
+    Subjectlist = SetRequirementsOf(Subjectlist)
 
     SaveData(Subjectlist)
