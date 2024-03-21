@@ -34,6 +34,7 @@ interface Subject {
   Course: string;
   Type: string;
   Link: string;
+  Semester:string;
   Institute: string;
   Credits: Credits;
   About: About;
@@ -58,6 +59,26 @@ async function getSubjects(): Promise<Subject[]> {
 subjectRouter.get('/', async (request, response) => {
   const subjects = await getSubjects();
   return response.json(subjects);
+});
+
+subjectRouter.get('/semester', async (request, response) => {
+  try {
+    const subjects = await getSubjects();
+    const semesters: { [key: string]: Subject[] } = {};
+
+    subjects.forEach((element) => {
+      if (!semesters[element.Semester]) {
+        semesters[element.Semester] = [];
+      }
+      semesters[element.Semester].push(element);
+    });
+
+    const subjectWithSemesters = Object.entries(semesters).map(([title, data]) => ({ title, data }));
+
+    response.json(subjectWithSemesters);
+  } catch (error) {
+    response.status(500).send(error);
+  }
 });
 
 subjectRouter.get('/:code', async (request, response) => {

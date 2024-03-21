@@ -15,7 +15,7 @@ def GetDriverEdge():
     from selenium.webdriver.edge.options import Options as EdgeOptions
 
     options = EdgeOptions()
-    options.binary_location = "/var/lib/flatpak/app/com.microsoft.Edge/x86_64/stable/5f6e2e04da2d3c89ae8fd562f152cbe7ee2cd1ba569225536b1d93466d055bf4/files/extra/microsoft-edge"
+    options.binary_location = "/var/lib/flatpak/app/com.microsoft.Edge/x86_64/stable/dc70ef8922e1b20d5e951c8e185ccb15f940089a4e79589adea7a4d64682b881/files/extra/microsoft-edge"
     driver_path="./drivers/msedgedriver"
 
     # Inicie o navegador Edge
@@ -49,4 +49,4 @@ def GetDriverFirefox():
     driverFirefox = webdriver.Firefox(service=FirefoxService(driverPATH), options=options)
     return driverFirefox
 
-DRIVER = GetDriverFirefox()
+DRIVER = GetDriverEdge()
