@@ -16,6 +16,7 @@ export default {
         'darkGray': '#212121',
         'gray': '424242',
         'lightGray': '#9E9E9E',
+        'yellow': '#FACC15'
       }
     },
   },
